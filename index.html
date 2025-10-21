@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Smart Todo List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>📝 My Todo List</h1>
+            <button id="themeToggle" class="theme-btn">🌙</button>
+        </header>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="আজকের টাস্ক লিখো...">
+            <button id="addTaskBtn" class="add-btn">যোগ করো</button>
+        </div>
+
+        <!-- Tasks List -->
+        <div class="tasks-section">
+            <ul id="taskList" class="task-list">
+                <!-- Tasks will appear here dynamically -->
+            </ul>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <p>মোট টাস্ক: <span id="totalTasks">0</span></p>
+            <p>সম্পূর্ণ: <span id="completedTasks">0</span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
