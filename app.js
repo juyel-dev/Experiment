@@ -1,12 +1,12 @@
-// Firebase Configuration for Real-Time Database
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCYflpDZV4prrM-KayHRRwEU1CtiGEa9e0",
-  authDomain: "content-promax.firebaseapp.com",
-  databaseURL: "https://content-promax-default-rtdb.firebaseio.com",
-  projectId: "content-promax",
-  storageBucket: "content-promax.firebasestorage.app",
-  messagingSenderId: "590478958749",
-  appId: "1:590478958749:web:8434c03f75273e63607474"
+    apiKey: "your-api-key",
+    authDomain: "your-project.firebaseapp.com",
+    databaseURL: "https://your-project-default-rtdb.firebaseio.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project.appspot.com",
+    messagingSenderId: "your-sender-id",
+    appId: "your-app-id"
 };
 
 // Initialize Firebase
@@ -14,374 +14,252 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // Main Application Class
-class ContentMasterPro {
+class MegaHubPro {
     constructor() {
-        this.adminPassword = "admin123"; // Change this to your preferred password
-        this.currentUser = `user_${Date.now()}`;
+        this.adminPassword = "zxcvbnm";
+        this.currentUser = null;
         this.init();
     }
 
     init() {
-        this.setupRealTimeListeners();
-        this.showSection('home');
         this.setupEventListeners();
-    }
-
-    setupRealTimeListeners() {
-        // Listen for banner updates
-        database.ref('banner').on('value', (snapshot) => {
-            const banner = snapshot.val();
-            if (banner) {
-                this.updateBannerUI(banner);
-            }
+        this.setupFirebaseListeners();
+        AOS.init({
+            duration: 1000,
+            once: true
         });
-
-        // Listen for products
-        database.ref('products').on('value', (snapshot) => {
-            const products = snapshot.val();
-            this.updateProductsUI(products);
-        });
-
-        // Listen for gallery items
-        database.ref('gallery').on('value', (snapshot) => {
-            const gallery = snapshot.val();
-            this.updateGalleryUI(gallery);
-        });
-
-        // Listen for messages
-        database.ref('messages').on('value', (snapshot) => {
-            const messages = snapshot.val();
-            this.updateMessagesUI(messages);
-        });
-
-        // Listen for live feed updates
-        database.ref('liveFeed').on('value', (snapshot) => {
-            const feed = snapshot.val();
-            this.updateLiveFeedUI(feed);
-        });
-
-        // Listen for PDFs
-        database.ref('pdfs').on('value', (snapshot) => {
-            const pdfs = snapshot.val();
-            this.updatePDFsUI(pdfs);
-        });
+        this.showTab('home');
     }
 
     setupEventListeners() {
-        // Auto-save when admin makes changes
-        document.addEventListener('input', (e) => {
-            if (e.target.closest('#adminControls')) {
-                this.autoSaveIndicator();
-            }
+        // Tab navigation
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tab = e.target.getAttribute('data-tab');
+                this.showTab(tab);
+            });
+        });
+
+        // Hamburger menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', this.toggleTheme);
+
+        // Admin tabs
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                this.showAdminTab(e.target.getAttribute('data-admin-tab'));
+            });
         });
     }
 
-    // Banner Management
-    updateBannerUI(banner) {
-        const container = document.getElementById('bannerContainer');
-        const heroText = document.getElementById('heroText');
+    setupFirebaseListeners() {
+        // Listen for website content updates
+        database.ref('websiteContent').on('value', (snapshot) => {
+            const content = snapshot.val();
+            if (content) this.updateWebsiteContent(content);
+        });
+
+        // Listen for live activity
+        database.ref('liveActivity').on('value', (snapshot) => {
+            const activity = snapshot.val();
+            if (activity) this.updateLiveActivity(activity);
+        });
+    }
+
+    showTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
         
-        if (banner && banner.text) {
-            heroText.textContent = banner.text;
-        }
-
-        if (banner && banner.image) {
-            container.innerHTML = `
-                <div class="banner">
-                    <h3>${banner.text || 'Special Offer'}</h3>
-                    <img src="${banner.image}" alt="Banner" style="max-height: 300px;">
-                    <p class="mt-2">${banner.description || ''}</p>
-                </div>
-            `;
-        } else if (banner && banner.text) {
-            container.innerHTML = `
-                <div class="banner">
-                    <h3>${banner.text}</h3>
-                    <p>${banner.description || ''}</p>
-                </div>
-            `;
-        } else {
-            container.innerHTML = '';
-            heroText.textContent = 'Your content will appear here in real-time';
-        }
-    }
-
-    // Products Management
-    updateProductsUI(products) {
-        const container = document.getElementById('productsContainer');
+        // Show selected tab
+        document.getElementById(tabName).classList.add('active');
         
-        if (!products) {
-            container.innerHTML = '<div class="col-12 text-center"><p>No products yet. Admin will add products soon.</p></div>';
-            return;
-        }
-
-        const productsArray = Object.values(products);
-        container.innerHTML = productsArray.map(product => `
-            <div class="col-md-4">
-                <div class="card product-card">
-                    <img src="${product.image || 'https://via.placeholder.com/300'}" class="card-img-top" alt="${product.name}">
-                    <div class="card-body">
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">${product.description || ''}</p>
-                        <p class="h4 text-primary">$${product.price || '0.00'}</p>
-                        ${product.affiliateLink ? `
-                            <a href="${product.affiliateLink}" target="_blank" class="btn btn-success w-100">
-                                Buy Now <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        ` : ''}
-                        <div class="mt-2">
-                            <button class="btn btn-outline-primary btn-sm" onclick="addReview('${product.id}')">
-                                <i class="fas fa-star"></i> Review
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // Gallery Management
-    updateGalleryUI(gallery) {
-        const container = document.getElementById('galleryContainer');
+        // Update active tab button
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
         
-        if (!gallery) {
-            container.innerHTML = '<div class="col-12 text-center"><p>No gallery items yet.</p></div>';
-            return;
-        }
-
-        const galleryArray = Object.values(gallery);
-        container.innerHTML = galleryArray.map(item => `
-            <div class="col-md-4">
-                <div class="gallery-item">
-                    <img src="${item.image}" alt="${item.title}">
-                    <div class="gallery-overlay">
-                        <h6>${item.title}</h6>
-                        <small>${item.description || ''}</small>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+        // Close mobile menu
+        document.getElementById('mobileMenu').classList.remove('active');
     }
 
-    // Messages Management
-    updateMessagesUI(messages) {
-        const container = document.getElementById('messageContainer');
+    showAdminTab(tabName) {
+        document.querySelectorAll('.admin-tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
         
-        if (!messages) {
-            container.innerHTML = '<p class="text-center">No messages yet. Start the conversation!</p>';
-            return;
-        }
-
-        const messagesArray = Object.values(messages);
-        container.innerHTML = messagesArray.map(msg => `
-            <div class="message ${msg.type === 'admin' ? 'admin' : 'user'}">
-                <strong>${msg.sender}:</strong> ${msg.text}
-                <br><small class="text-muted">${new Date(msg.timestamp).toLocaleTimeString()}</small>
-            </div>
-        `).join('');
-
-        // Auto-scroll to bottom
-        container.scrollTop = container.scrollHeight;
+        document.getElementById(`admin${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`).classList.add('active');
+        document.querySelector(`[data-admin-tab="${tabName}"]`).classList.add('active');
     }
 
-    // Live Feed Updates
-    updateLiveFeedUI(feed) {
-        const container = document.getElementById('liveFeed');
-        
-        if (!feed) {
-            container.innerHTML = '<p>No updates yet.</p>';
-            return;
-        }
-
-        const feedArray = Object.values(feed).sort((a, b) => b.timestamp - a.timestamp);
-        container.innerHTML = feedArray.map(item => `
-            <div class="feed-item">
-                <div class="d-flex justify-content-between">
-                    <strong>${item.title}</strong>
-                    <small class="text-muted">${new Date(item.timestamp).toLocaleString()}</small>
-                </div>
-                <p class="mb-0">${item.message}</p>
-                ${item.image ? `<img src="${item.image}" class="img-fluid mt-2" style="max-height: 150px;">` : ''}
-            </div>
-        `).join('');
-    }
-
-    // PDF Management
-    updatePDFsUI(pdfs) {
-        // You can create a PDF section in your HTML and update it here
-        console.log('PDFs updated:', pdfs);
-    }
-
-    // Admin Functions
     loginAdmin() {
         const password = document.getElementById('adminPassword').value;
         if (password === this.adminPassword) {
             document.getElementById('adminLogin').classList.add('d-none');
             document.getElementById('adminControls').classList.remove('d-none');
-            this.showNotification('Admin login successful!', 'success');
+            this.showNotification('Admin access granted!', 'success');
+            this.loadAdminData();
         } else {
             this.showNotification('Invalid password!', 'error');
         }
     }
 
-    updateBanner() {
-        const text = document.getElementById('bannerText').value;
-        const image = document.getElementById('bannerImage').value;
-
-        database.ref('banner').set({
-            text: text,
-            image: image,
-            updated: Date.now()
-        });
-
-        this.addToLiveFeed('Banner Updated', `Admin updated the website banner`);
-        this.showNotification('Banner updated successfully!', 'success');
+    updateAbout() {
+        const content = document.getElementById('aboutContent').value;
+        database.ref('websiteContent/about').set(content);
+        this.showNotification('About section updated!', 'success');
     }
 
-    addProduct() {
-        const name = document.getElementById('productName').value;
-        const price = document.getElementById('productPrice').value;
-        const image = document.getElementById('productImage').value;
-        const description = document.getElementById('productDesc').value;
-        const affiliateLink = document.getElementById('affiliateLink').value;
+    updateFooter() {
+        const content = document.getElementById('footerContent').value;
+        database.ref('websiteContent/footer').set(content);
+        this.showNotification('Footer updated!', 'success');
+    }
 
-        if (!name) {
-            this.showNotification('Product name is required!', 'error');
-            return;
+    updateSocialLinks() {
+        const links = {
+            facebook: document.getElementById('facebookLink').value,
+            instagram: document.getElementById('instagramLink').value,
+            telegram: document.getElementById('telegramLink').value
+        };
+        database.ref('websiteContent/socialLinks').set(links);
+        this.showNotification('Social links updated!', 'success');
+    }
+
+    updateContactInfo() {
+        const contact = {
+            email: document.getElementById('contactEmail').value,
+            phone: document.getElementById('contactPhone').value,
+            address: document.getElementById('contactAddress').value
+        };
+        database.ref('websiteContent/contact').set(contact);
+        this.showNotification('Contact info updated!', 'success');
+    }
+
+    updateWebsiteContent(content) {
+        // Update about section
+        if (content.about) {
+            document.getElementById('about').innerHTML = `
+                <div class="container">
+                    <div class="glass-card">
+                        <h2>About Us</h2>
+                        <p>${content.about}</p>
+                    </div>
+                </div>
+            `;
         }
 
-        const productId = `product_${Date.now()}`;
-        database.ref('products/' + productId).set({
-            id: productId,
-            name: name,
-            price: price,
-            image: image,
-            description: description,
-            affiliateLink: affiliateLink,
-            created: Date.now()
-        });
-
-        this.addToLiveFeed('New Product', `Added: ${name} - $${price}`);
-        this.showNotification('Product added successfully!', 'success');
-        
-        // Clear form
-        document.getElementById('productName').value = '';
-        document.getElementById('productPrice').value = '';
-        document.getElementById('productImage').value = '';
-        document.getElementById('productDesc').value = '';
-        document.getElementById('affiliateLink').value = '';
-    }
-
-    addToGallery() {
-        const image = document.getElementById('galleryImage').value;
-        const title = document.getElementById('galleryTitle').value;
-
-        if (!image) {
-            this.showNotification('Image URL is required!', 'error');
-            return;
+        // Update footer
+        if (content.footer) {
+            document.getElementById('dynamicFooter').innerHTML = `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>${content.footer}</p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            ${content.socialLinks ? `
+                                <div class="social-links">
+                                    ${content.socialLinks.facebook ? `<a href="${content.socialLinks.facebook}" class="social-link"><i class="fab fa-facebook"></i></a>` : ''}
+                                    ${content.socialLinks.instagram ? `<a href="${content.socialLinks.instagram}" class="social-link"><i class="fab fa-instagram"></i></a>` : ''}
+                                    ${content.socialLinks.telegram ? `<a href="${content.socialLinks.telegram}" class="social-link"><i class="fab fa-telegram"></i></a>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
-        const galleryId = `gallery_${Date.now()}`;
-        database.ref('gallery/' + galleryId).set({
-            id: galleryId,
-            image: image,
-            title: title,
-            created: Date.now()
-        });
-
-        this.addToLiveFeed('Gallery Updated', `Added new image: ${title}`);
-        this.showNotification('Image added to gallery!', 'success');
-        
-        // Clear form
-        document.getElementById('galleryImage').value = '';
-        document.getElementById('galleryTitle').value = '';
-    }
-
-    addPDF() {
-        const title = document.getElementById('pdfTitle').value;
-        const url = document.getElementById('pdfUrl').value;
-
-        if (!title || !url) {
-            this.showNotification('Title and URL are required!', 'error');
-            return;
+        // Update contact section
+        if (content.contact) {
+            document.getElementById('contact').innerHTML = `
+                <div class="container">
+                    <div class="glass-card">
+                        <h2>Contact Us</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Email:</strong> ${content.contact.email || 'N/A'}</p>
+                                <p><strong>Phone:</strong> ${content.contact.phone || 'N/A'}</p>
+                                <p><strong>Address:</strong> ${content.contact.address || 'N/A'}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <form>
+                                    <input type="text" class="form-control glass-input mb-2" placeholder="Your Name">
+                                    <input type="email" class="form-control glass-input mb-2" placeholder="Your Email">
+                                    <textarea class="form-control glass-input mb-2" placeholder="Message" rows="4"></textarea>
+                                    <button type="submit" class="btn-neon">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
-
-        const pdfId = `pdf_${Date.now()}`;
-        database.ref('pdfs/' + pdfId).set({
-            id: pdfId,
-            title: title,
-            url: url,
-            created: Date.now()
-        });
-
-        this.addToLiveFeed('New PDF', `Added PDF: ${title}`);
-        this.showNotification('PDF added successfully!', 'success');
-        
-        // Clear form
-        document.getElementById('pdfTitle').value = '';
-        document.getElementById('pdfUrl').value = '';
     }
 
-    broadcastMessage() {
-        const message = document.getElementById('broadcastMessage').value;
+    updateLiveActivity(activity) {
+        const container = document.getElementById('liveActivityFeed');
+        if (!activity) return;
 
-        if (!message) {
-            this.showNotification('Message is required!', 'error');
-            return;
-        }
-
-        // Add to messages as admin
-        const messageId = `msg_${Date.now()}`;
-        database.ref('messages/' + messageId).set({
-            id: messageId,
-            text: message,
-            sender: 'Admin',
-            type: 'admin',
-            timestamp: Date.now()
-        });
-
-        // Add to live feed
-        this.addToLiveFeed('Admin Broadcast', message);
-
-        this.showNotification('Message broadcasted to all users!', 'success');
-        document.getElementById('broadcastMessage').value = '';
+        const activities = Object.values(activity).sort((a, b) => b.timestamp - a.timestamp);
+        container.innerHTML = activities.map(item => `
+            <div class="glass-card feed-item">
+                <div class="d-flex align-items-center">
+                    <div class="activity-icon">${item.icon || '👤'}</div>
+                    <div class="activity-content">
+                        <strong>${item.user || 'User'}</strong> ${item.action}
+                        <br><small class="text-muted">${new Date(item.timestamp).toLocaleTimeString()}</small>
+                    </div>
+                </div>
+            </div>
+        `).join('');
     }
 
-    addToLiveFeed(title, message, image = null) {
-        const feedId = `feed_${Date.now()}`;
-        database.ref('liveFeed/' + feedId).set({
-            id: feedId,
-            title: title,
-            message: message,
-            image: image,
-            timestamp: Date.now()
+    loadAdminData() {
+        // Load current content into admin forms
+        database.ref('websiteContent').once('value').then(snapshot => {
+            const content = snapshot.val();
+            if (content) {
+                document.getElementById('aboutContent').value = content.about || '';
+                document.getElementById('footerContent').value = content.footer || '';
+                
+                if (content.socialLinks) {
+                    document.getElementById('facebookLink').value = content.socialLinks.facebook || '';
+                    document.getElementById('instagramLink').value = content.socialLinks.instagram || '';
+                    document.getElementById('telegramLink').value = content.socialLinks.telegram || '';
+                }
+                
+                if (content.contact) {
+                    document.getElementById('contactEmail').value = content.contact.email || '';
+                    document.getElementById('contactPhone').value = content.contact.phone || '';
+                    document.getElementById('contactAddress').value = content.contact.address || '';
+                }
+            }
         });
     }
 
-    // Utility Functions
-    showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(section => {
-            section.classList.remove('active');
-        });
-        document.getElementById(sectionId).classList.add('active');
-    }
-
-    showAdminPanel() {
-        this.showSection('adminPanel');
-        document.getElementById('adminLogin').classList.remove('d-none');
-        document.getElementById('adminControls').classList.add('d-none');
-        document.getElementById('adminPassword').value = '';
+    toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        document.body.classList.toggle('light-theme');
     }
 
     showNotification(message, type = 'info') {
-        // Create notification element
         const notification = document.createElement('div');
-        notification.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show`;
+        notification.className = `alert alert-${type === 'error' ? 'danger' : 'success'} alert-dismissible fade show`;
         notification.style.position = 'fixed';
         notification.style.top = '20px';
         notification.style.right = '20px';
         notification.style.zIndex = '9999';
-        notification.style.minWidth = '300px';
         notification.innerHTML = `
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -389,99 +267,48 @@ class ContentMasterPro {
         
         document.body.appendChild(notification);
         
-        // Auto remove after 3 seconds
         setTimeout(() => {
             if (notification.parentNode) {
                 notification.parentNode.removeChild(notification);
             }
         }, 3000);
     }
-
-    autoSaveIndicator() {
-        // Show auto-save indicator
-        const indicator = document.createElement('div');
-        indicator.className = 'badge bg-success';
-        indicator.style.position = 'fixed';
-        indicator.style.bottom = '10px';
-        indicator.style.right = '10px';
-        indicator.style.zIndex = '9999';
-        indicator.textContent = 'Auto-saving...';
-        
-        document.body.appendChild(indicator);
-        
-        setTimeout(() => {
-            if (indicator.parentNode) {
-                indicator.parentNode.removeChild(indicator);
-            }
-        }, 1000);
-    }
-
-    // Data Management Functions
-    clearProducts() {
-        if (confirm('Are you sure you want to clear all products?')) {
-            database.ref('products').remove();
-            this.showNotification('All products cleared!', 'success');
-        }
-    }
-
-    clearGallery() {
-        if (confirm('Are you sure you want to clear the gallery?')) {
-            database.ref('gallery').remove();
-            this.showNotification('Gallery cleared!', 'success');
-        }
-    }
-
-    clearMessages() {
-        if (confirm('Are you sure you want to clear all messages?')) {
-            database.ref('messages').remove();
-            this.showNotification('Messages cleared!', 'success');
-        }
-    }
-
-    exportData() {
-        // Export all data as JSON
-        const refs = ['banner', 'products', 'gallery', 'messages', 'liveFeed', 'pdfs'];
-        const exportData = {};
-        
-        refs.forEach(ref => {
-            // This would need to be implemented with Promise.all for proper async handling
-            // For now, we'll just show a message
-        });
-        
-        this.showNotification('Export feature coming soon!', 'info');
-    }
 }
 
-// Global functions for HTML onclick events
-const app = new ContentMasterPro();
+// Initialize app
+const app = new MegaHubPro();
 
-function sendMessage() {
-    const input = document.getElementById('messageInput');
-    const message = input.value.trim();
-    
-    if (message) {
-        const messageId = `msg_${Date.now()}`;
-        database.ref('messages/' + messageId).set({
-            id: messageId,
-            text: message,
-            sender: 'User',
-            type: 'user',
-            timestamp: Date.now()
-        });
-        
-        input.value = '';
-    }
+// Global functions for HTML onclick
+function showTab(tabName) {
+    app.showTab(tabName);
 }
 
-function addReview(productId) {
-    const review = prompt('Enter your review for this product:');
-    if (review) {
-        app.showNotification('Review submitted!', 'success');
-        // Here you can save reviews to Firebase
-    }
+function loginAdmin() {
+    app.loginAdmin();
 }
 
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('ContentMaster Pro initialized!');
-});
+function updateAbout() {
+    app.updateAbout();
+}
+
+function updateFooter() {
+    app.updateFooter();
+}
+
+function updateSocialLinks() {
+    app.updateSocialLinks();
+}
+
+function updateContactInfo() {
+    app.updateContactInfo();
+}
+
+// Add some sample live activity
+setTimeout(() => {
+    database.ref('liveActivity/activity1').set({
+        user: 'John Doe',
+        action: 'just purchased a new course',
+        icon: '🎓',
+        timestamp: Date.now()
+    });
+}, 2000);
