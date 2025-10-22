@@ -1,12 +1,12 @@
 // Firebase Configuration
 const firebaseConfig = {
-    apiKey: "your-api-key",
-    authDomain: "your-project.firebaseapp.com",
-    databaseURL: "https://your-project-default-rtdb.firebaseio.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "your-sender-id",
-    appId: "your-app-id"
+  apiKey: "AIzaSyCYflpDZV4prrM-KayHRRwEU1CtiGEa9e0",
+  authDomain: "content-promax.firebaseapp.com",
+  databaseURL: "https://content-promax-default-rtdb.firebaseio.com",
+  projectId: "content-promax",
+  storageBucket: "content-promax.firebasestorage.app",
+  messagingSenderId: "590478958749",
+  appId: "1:590478958749:web:8434c03f75273e63607474"
 };
 
 // Initialize Firebase
