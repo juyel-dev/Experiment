@@ -3,253 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ContentMaster Pro - Real-Time CMS</title>
+    <title>MegaHub Pro - All-in-One Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark-theme">
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-broadcast-tower"></i> ContentMaster Pro
-            </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="#" onclick="showSection('home')">Home</a>
-                <a class="nav-link" href="#" onclick="showSection('products')">Products</a>
-                <a class="nav-link" href="#" onclick="showSection('messages')">Messages</a>
-                <a class="nav-link" href="#" onclick="showSection('gallery')">Gallery</a>
-                <a class="nav-link" href="#" onclick="showAdminPanel()">Admin</a>
+    <nav class="glass-nav">
+        <div class="nav-brand">
+            <i class="fas fa-infinity"></i>
+            <span>MegaHub Pro</span>
+        </div>
+        
+        <!-- Desktop Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="home">🏠 Home</button>
+            <button class="tab-btn" data-tab="social">👥 Social</button>
+            <button class="tab-btn" data-tab="shop">🛒 Shop</button>
+            <button class="tab-btn" data-tab="courses">📚 Learn</button>
+            <button class="tab-btn" data-tab="services">💼 Services</button>
+            <button class="tab-btn" data-tab="analytics">📊 Analytics</button>
+        </div>
+
+        <!-- User Menu -->
+        <div class="user-menu">
+            <button class="btn-glass" id="themeToggle">🌙</button>
+            <button class="btn-glass" id="notificationBtn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="user-avatar">
+                <img src="https://i.pravatar.cc/40" alt="User">
             </div>
         </div>
+
+        <!-- Mobile Hamburger -->
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </nav>
 
-    <!-- Home Section -->
-    <section id="home" class="section active">
-        <div class="container">
-            <div class="hero-section text-center py-5">
-                <h1 class="display-4 fw-bold">Welcome to Our Platform</h1>
-                <p class="lead" id="heroText">Your content will appear here in real-time</p>
-                <div id="bannerContainer" class="my-4">
-                    <!-- Dynamic Banner will appear here -->
-                </div>
-            </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="tab-btn active" data-tab="home">🏠 Home</button>
+        <button class="tab-btn" data-tab="social">👥 Social</button>
+        <button class="tab-btn" data-tab="shop">🛒 Shop</button>
+        <button class="tab-btn" data-tab="courses">📚 Learn</button>
+        <button class="tab-btn" data-tab="services">💼 Services</button>
+        <button class="tab-btn" data-tab="analytics">📊 Analytics</button>
+        <button class="tab-btn" data-tab="about">ℹ️ About</button>
+        <button class="tab-btn" data-tab="contact">📞 Contact</button>
+        <button class="tab-btn" data-tab="admin">⚙️ Admin</button>
+    </div>
 
-            <!-- Real-Time Updates Feed -->
-            <div class="row mt-5">
-                <div class="col-12">
-                    <h3>Live Updates</h3>
-                    <div id="liveFeed" class="live-feed">
-                        <!-- Updates will appear here automatically -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section id="products" class="section">
-        <div class="container">
-            <h2 class="text-center mb-4">Our Products</h2>
-            <div id="productsContainer" class="row">
-                <!-- Products will load here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Messages Section -->
-    <section id="messages" class="section">
-        <div class="container">
-            <h2 class="text-center mb-4">Live Chat & Messages</h2>
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0">Public Messages</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="messageContainer" style="height: 300px; overflow-y: auto; margin-bottom: 15px;">
-                                <!-- Messages will appear here -->
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Tab -->
+        <section id="home" class="tab-content active">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h1 class="hero-title" data-aos="fade-up">
+                                Welcome to <span class="gradient-text">MegaHub Pro</span>
+                            </h1>
+                            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                                The Ultimate All-in-One Platform for Social, Shopping, Learning & Services
+                            </p>
+                            <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400">
+                                <button class="btn-neon" onclick="showTab('social')">
+                                    Join Community
+                                </button>
+                                <button class="btn-glass" onclick="showTab('shop')">
+                                    Start Shopping
+                                </button>
                             </div>
-                            <div class="input-group">
-                                <input type="text" id="messageInput" class="form-control" placeholder="Type your message...">
-                                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="hero-visual" data-aos="zoom-in">
+                                <!-- Animated 3D Cube -->
+                                <div class="floating-cube">
+                                    <div class="cube-face front">🛒</div>
+                                    <div class="cube-face back">📚</div>
+                                    <div class="cube-face right">👥</div>
+                                    <div class="cube-face left">💼</div>
+                                    <div class="cube-face top">📊</div>
+                                    <div class="cube-face bottom">🎯</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="section">
-        <div class="container">
-            <h2 class="text-center mb-4">Photo Gallery</h2>
-            <div id="galleryContainer" class="row">
-                <!-- Gallery items will load here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Admin Panel -->
-    <section id="adminPanel" class="section">
-        <div class="container">
-            <h2 class="text-center mb-4">Admin Control Panel</h2>
-            
-            <!-- Admin Login -->
-            <div id="adminLogin" class="row justify-content-center">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header bg-warning">
-                            <h5 class="mb-0">Admin Login</h5>
+            <!-- Features Grid -->
+            <div class="container">
+                <div class="section-title">
+                    <h2>Everything You Need in One Place</h2>
+                </div>
+                <div class="row features-grid">
+                    <div class="col-md-4" data-aos="fade-up">
+                        <div class="feature-card glass-card">
+                            <div class="feature-icon">👥</div>
+                            <h3>Social Network</h3>
+                            <p>Connect, share, and engage with our community</p>
+                            <ul>
+                                <li>Real-time messaging</li>
+                                <li>Photo/video sharing</li>
+                                <li>Groups & events</li>
+                            </ul>
                         </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" id="adminPassword" class="form-control" placeholder="Enter admin password">
-                            </div>
-                            <button class="btn btn-warning w-100" onclick="loginAdmin()">Login</button>
+                    </div>
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-card glass-card">
+                            <div class="feature-icon">🛒</div>
+                            <h3>E-commerce</h3>
+                            <p>Buy and sell with secure transactions</p>
+                            <ul>
+                                <li>3D product views</li>
+                                <li>AI recommendations</li>
+                                <li>Secure payments</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-card glass-card">
+                            <div class="feature-icon">📚</div>
+                            <h3>Learning Hub</h3>
+                            <p>Learn new skills with interactive courses</p>
+                            <ul>
+                                <li>Video streaming</li>
+                                <li>Quizzes & certificates</li>
+                                <li>Progress tracking</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Admin Controls -->
-            <div id="adminControls" class="d-none">
-                <div class="row">
-                    <!-- Banner Management -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header bg-success text-white">
-                                <h5 class="mb-0">Banner Management</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Banner Text</label>
-                                    <input type="text" id="bannerText" class="form-control" placeholder="Enter banner text">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Banner Image URL</label>
-                                    <input type="text" id="bannerImage" class="form-control" placeholder="Enter image URL">
-                                </div>
-                                <button class="btn btn-success" onclick="updateBanner()">Update Banner</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Management -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header bg-info text-white">
-                                <h5 class="mb-0">Add Product</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <input type="text" id="productName" class="form-control" placeholder="Product Name">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" id="productPrice" class="form-control" placeholder="Price">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" id="productImage" class="form-control" placeholder="Image URL">
-                                </div>
-                                <div class="mb-3">
-                                    <textarea id="productDesc" class="form-control" placeholder="Description"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" id="affiliateLink" class="form-control" placeholder="Affiliate Link">
-                                </div>
-                                <button class="btn btn-info" onclick="addProduct()">Add Product</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Gallery Management -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0">Add to Gallery</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <input type="text" id="galleryImage" class="form-control" placeholder="Image URL">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" id="galleryTitle" class="form-control" placeholder="Title">
-                                </div>
-                                <button class="btn btn-primary" onclick="addToGallery()">Add to Gallery</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Message Broadcast -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header bg-danger text-white">
-                                <h5 class="mb-0">Broadcast Message</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <textarea id="broadcastMessage" class="form-control" placeholder="Type your broadcast message..."></textarea>
-                                </div>
-                                <button class="btn btn-danger" onclick="broadcastMessage()">Broadcast to All</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PDF Management -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header bg-dark text-white">
-                                <h5 class="mb-0">PDF Management</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <input type="text" id="pdfTitle" class="form-control" placeholder="PDF Title">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" id="pdfUrl" class="form-control" placeholder="PDF URL">
-                                </div>
-                                <button class="btn btn-dark" onclick="addPDF()">Add PDF</button>
-                            </div>
-                        </div>
+            <!-- Live Activity Feed -->
+            <div class="container">
+                <div class="live-feed-section">
+                    <h3>Live Community Activity</h3>
+                    <div id="liveActivityFeed" class="live-feed">
+                        <!-- Dynamic content will load here -->
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Current Data Management -->
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header bg-secondary text-white">
-                                <h5 class="mb-0">Current Data Management</h5>
+        <!-- Social Tab -->
+        <section id="social" class="tab-content">
+            <div class="container">
+                <h2>Social Network</h2>
+                <!-- Social feed content -->
+            </div>
+        </section>
+
+        <!-- Shop Tab -->
+        <section id="shop" class="tab-content">
+            <div class="container">
+                <h2>E-commerce Marketplace</h2>
+                <!-- Shop content -->
+            </div>
+        </section>
+
+        <!-- Courses Tab -->
+        <section id="courses" class="tab-content">
+            <div class="container">
+                <h2>Learning Hub</h2>
+                <!-- Courses content -->
+            </div>
+        </section>
+
+        <!-- Services Tab -->
+        <section id="services" class="tab-content">
+            <div class="container">
+                <h2>Services Marketplace</h2>
+                <!-- Services content -->
+            </div>
+        </section>
+
+        <!-- Analytics Tab -->
+        <section id="analytics" class="tab-content">
+            <div class="container">
+                <h2>Business Analytics</h2>
+                <!-- Analytics content -->
+            </div>
+        </section>
+
+        <!-- About Tab -->
+        <section id="about" class="tab-content">
+            <div class="container">
+                <h2>About Us</h2>
+                <!-- Dynamic about content -->
+            </div>
+        </section>
+
+        <!-- Contact Tab -->
+        <section id="contact" class="tab-content">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <!-- Dynamic contact content -->
+            </div>
+        </section>
+
+        <!-- Admin Panel -->
+        <section id="admin" class="tab-content">
+            <div class="container">
+                <div class="admin-panel">
+                    <h2>Admin Control Panel</h2>
+                    
+                    <!-- Admin Login -->
+                    <div id="adminLogin" class="glass-card">
+                        <h4>Admin Access</h4>
+                        <input type="password" id="adminPassword" class="form-control glass-input" placeholder="Enter admin password">
+                        <button class="btn-neon" onclick="loginAdmin()">Login</button>
+                    </div>
+
+                    <!-- Admin Controls -->
+                    <div id="adminControls" class="d-none">
+                        <!-- Quick Stats -->
+                        <div class="row admin-stats">
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <i class="fas fa-users"></i>
+                                    <h3 id="totalUsers">0</h3>
+                                    <p>Total Users</p>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <button class="btn btn-outline-danger w-100 mb-2" onclick="clearProducts()">Clear Products</button>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <h3 id="totalProducts">0</h3>
+                                    <p>Products</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <i class="fas fa-book"></i>
+                                    <h3 id="totalCourses">0</h3>
+                                    <p>Courses</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <i class="fas fa-chart-line"></i>
+                                    <h3 id="totalRevenue">$0</h3>
+                                    <p>Revenue</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Tabs -->
+                        <div class="admin-tabs">
+                            <button class="admin-tab active" data-admin-tab="content">Content Management</button>
+                            <button class="admin-tab" data-admin-tab="users">User Management</button>
+                            <button class="admin-tab" data-admin-tab="settings">Website Settings</button>
+                            <button class="admin-tab" data-admin-tab="analytics">Advanced Analytics</button>
+                        </div>
+
+                        <!-- Content Management -->
+                        <div id="adminContent" class="admin-tab-content active">
+                            <h4>Content Management</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="glass-card">
+                                        <h5>Edit About Section</h5>
+                                        <textarea id="aboutContent" class="form-control glass-input" rows="6"></textarea>
+                                        <button class="btn-neon mt-2" onclick="updateAbout()">Update About</button>
                                     </div>
-                                    <div class="col-md-3">
-                                        <button class="btn btn-outline-warning w-100 mb-2" onclick="clearGallery()">Clear Gallery</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="glass-card">
+                                        <h5>Edit Footer</h5>
+                                        <textarea id="footerContent" class="form-control glass-input" rows="6"></textarea>
+                                        <button class="btn-neon mt-2" onclick="updateFooter()">Update Footer</button>
                                     </div>
-                                    <div class="col-md-3">
-                                        <button class="btn btn-outline-info w-100 mb-2" onclick="clearMessages()">Clear Messages</button>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="glass-card">
+                                        <h5>Social Media Links</h5>
+                                        <input type="text" id="facebookLink" class="form-control glass-input mb-2" placeholder="Facebook URL">
+                                        <input type="text" id="instagramLink" class="form-control glass-input mb-2" placeholder="Instagram URL">
+                                        <input type="text" id="telegramLink" class="form-control glass-input mb-2" placeholder="Telegram URL">
+                                        <button class="btn-neon" onclick="updateSocialLinks()">Update Links</button>
                                     </div>
-                                    <div class="col-md-3">
-                                        <button class="btn btn-outline-success w-100 mb-2" onclick="exportData()">Export Data</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="glass-card">
+                                        <h5>Contact Information</h5>
+                                        <input type="text" id="contactEmail" class="form-control glass-input mb-2" placeholder="Email">
+                                        <input type="text" id="contactPhone" class="form-control glass-input mb-2" placeholder="Phone">
+                                        <input type="text" id="contactAddress" class="form-control glass-input mb-2" placeholder="Address">
+                                        <button class="btn-neon" onclick="updateContactInfo()">Update Contact</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- User Management -->
+                        <div id="adminUsers" class="admin-tab-content">
+                            <h4>User Management</h4>
+                            <!-- User management content -->
+                        </div>
+
+                        <!-- Website Settings -->
+                        <div id="adminSettings" class="admin-tab-content">
+                            <h4>Website Settings</h4>
+                            <!-- Settings content -->
+                        </div>
+
+                        <!-- Advanced Analytics -->
+                        <div id="adminAnalytics" class="admin-tab-content">
+                            <h4>Advanced Analytics</h4>
+                            <!-- Analytics content -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-footer" id="dynamicFooter">
+        <!-- Dynamic footer content -->
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1/firebase-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1/firebase-database.js"></script>
     <script src="app.js"></script>
