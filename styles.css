@@ -1,0 +1,326 @@
+/* Enhanced CSS with new components */
+/* Add these to your existing styles */
+
+/* Auth Tabs */
+.auth-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+}
+
+.auth-tab.active {
+    border-bottom-color: var(--primary);
+    color: var(--primary);
+}
+
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.auth-divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.auth-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+}
+
+.auth-divider span {
+    background: white;
+    padding: 0 15px;
+    color: var(--gray);
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.auth-links a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* Profile Page */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+/* Tabs */
+.profile-tabs, .admin-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    padding: 15px 25px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    color: var(--gray);
+}
+
+.tab-btn.active {
+    border-bottom-color: var(--primary);
+    color: var(--primary);
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Admin Styles */
+.admin-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.moderation-list, .users-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+/* Graph Modal Enhancements */
+.modal-content.large {
+    max-width: 1000px;
+}
+
+.graph-modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.graph-modal-image {
+    position: relative;
+}
+
+.graph-modal-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.graph-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.graph-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.graph-subject {
+    background: var(--primary);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    align-self: flex-start;
+}
+
+.graph-views, .rating-text {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.stars {
+    color: var(--accent);
+    margin-right: 10px;
+}
+
+/* Comments Section */
+.comments-section {
+    margin-top: 30px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+}
+
+.comments-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.comment {
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    font-weight: 600;
+}
+
+.comment-time {
+    color: var(--gray);
+    font-size: 0.8rem;
+}
+
+.comment-text {
+    color: var(--dark);
+    line-height: 1.5;
+}
+
+.comment-form {
+    display: none;
+}
+
+.comment-form.visible {
+    display: block;
+}
+
+/* Sort & Filter Enhancements */
+.filter-row {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    gap: 20px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sort-select {
+    padding: 8px 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: white;
+}
+
+/* Bulk Upload */
+.bulk-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.bulk-upload-area:hover {
+    border-color: var(--primary);
+}
+
+/* Verification Badge */
+.verified-badge {
+    color: var(--secondary);
+    margin-left: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .graph-modal-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .profile-stats {
+        justify-content: center;
+    }
+    
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .admin-actions {
+        flex-direction: column;
+    }
+}
