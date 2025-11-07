@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphz - Visual Knowledge Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+</head>
+<body>
+    <!-- Donation Button -->
+    <a href="#donation" class="donation-top-btn">
+        <i class="fas fa-heart"></i> Support Us
+    </a>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-network"></i>
+                    </div>
+                    <span>Graphz</span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active" id="nav-home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#" id="nav-subjects"><i class="fas fa-book"></i> Subjects</a></li>
+                        <li><a href="#" id="nav-profile" style="display:none"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a href="#" id="nav-favorites" style="display:none"><i class="fas fa-star"></i> Favorites</a></li>
+                        <li><a href="#" id="nav-admin"><i class="fas fa-user-shield"></i> Admin</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="#" class="btn btn-outline" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- User Interface -->
+    <div id="user-interface">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Visual Knowledge Platform</h1>
+                    <p>Explore hundreds of educational graphs across science and mathematics.</p>
+                    <div class="hero-buttons">
+                        <a href="#graphs" class="btn btn-secondary"><i class="fas fa-rocket"></i> Explore Graphs</a>
+                        <a href="#subjects" class="btn btn-accent"><i class="fas fa-graduation-cap"></i> Browse Subjects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search & Filter Section -->
+        <section class="container">
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" class="search-box" id="search-input" placeholder="Search graphs, tags, subjects...">
+                    <button class="btn" id="search-btn"><i class="fas fa-search"></i> Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <div class="filter-title">
+                                <i class="fas fa-filter"></i> Filter by Subject:
+                            </div>
+                            <div class="filter-chips" id="filter-chips">
+                                <!-- Dynamic filters -->
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <select class="sort-select" id="sort-select">
+                                <option value="newest">Newest First</option>
+                                <option value="popular">Most Popular</option>
+                                <option value="az">A-Z</option>
+                                <option value="rating">Highest Rated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Graph Grid -->
+        <section class="container" id="graphs">
+            <h2 class="section-title"><i class="fas fa-chart-bar"></i> Popular Graphs</h2>
+            <div class="graph-grid" id="graph-grid">
+                <!-- Dynamic content -->
+            </div>
+        </section>
+
+        <!-- Donation Section -->
+        <section class="container" id="donation">
+            <div class="donation-section">
+                <div class="donation-content">
+                    <h2 class="donation-title">Support Our Mission</h2>
+                    <p class="donation-text">Your donation helps us create more educational content.</p>
+                    <div class="donation-options">
+                        <a href="upi://pay?pa=graphzlive@upi&pn=GraphzLive&am=100&cu=INR" class="donation-option">
+                            <i class="fas fa-mobile-alt"></i> UPI
+                        </a>
+                        <a href="https://ko-fi.com/graphzlive" target="_blank" class="donation-option">
+                            <i class="fas fa-coffee"></i> Ko-fi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile-page" class="page" style="display:none">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h2 id="profile-name">User Name</h2>
+                    <p id="profile-email">user@example.com</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="stat-graphs">0</span>
+                            <span class="stat-label">Graphs</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="stat-favorites">0</span>
+                            <span class="stat-label">Favorites</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="stat-ratings">0</span>
+                            <span class="stat-label">Ratings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-tabs">
+                <button class="tab-btn active" data-tab="my-graphs">My Graphs</button>
+                <button class="tab-btn" data-tab="favorites">Favorites</button>
+                <button class="tab-btn" data-tab="ratings">My Ratings</button>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="my-graphs">
+                    <div class="graph-grid" id="user-graphs-grid">
+                        <!-- User's graphs -->
+                    </div>
+                </div>
+                <div class="tab-pane" id="favorites">
+                    <div class="graph-grid" id="favorites-grid">
+                        <!-- Favorite graphs -->
+                    </div>
+                </div>
+                <div class="tab-pane" id="ratings">
+                    <div class="graph-grid" id="ratings-grid">
+                        <!-- Rated graphs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="page" style="display:none">
+        <div class="container">
+            <div class="admin-header">
+                <h2 class="section-title"><i class="fas fa-user-shield"></i> Admin Dashboard</h2>
+                <div class="admin-actions">
+                    <button class="btn btn-outline" id="bulk-upload-btn">
+                        <i class="fas fa-upload"></i> Bulk Upload
+                    </button>
+                    <button class="btn btn-danger" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="graph-management">Graph Management</button>
+                <button class="tab-btn" data-tab="moderation-queue">Moderation Queue</button>
+                <button class="tab-btn" data-tab="user-management">User Management</button>
+            </div>
+
+            <!-- Graph Management -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="graph-management">
+                    <div class="admin-form">
+                        <h3>Add New Graph</h3>
+                        <form id="graph-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Graph Name *</label>
+                                    <input type="text" class="form-input" id="graph-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Subject *</label>
+                                    <input type="text" class="form-input" id="graph-subject" required list="subjects">
+                                    <datalist id="subjects">
+                                        <option value="Physics">
+                                        <option value="Chemistry">
+                                        <option value="Biology">
+                                        <option value="Mathematics">
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tags (comma separated)</label>
+                                <input type="text" class="form-input" id="graph-tags" placeholder="waves, physics, oscillation">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Image URL *</label>
+                                <input type="url" class="form-input" id="graph-image" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-textarea" id="graph-description" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn">
+                                <i class="fas fa-plus"></i> Add Graph
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="graphs-table">
+                        <div class="table-header">
+                            <div>Name</div>
+                            <div>Subject</div>
+                            <div>Views</div>
+                            <div>Rating</div>
+                            <div>Actions</div>
+                        </div>
+                        <div id="admin-graphs-list">
+                            <!-- Admin graphs list -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Moderation Queue -->
+                <div class="tab-pane" id="moderation-queue">
+                    <div class="moderation-list" id="moderation-list">
+                        <!-- Reports will appear here -->
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="tab-pane" id="user-management">
+                    <div class="users-table">
+                        <div class="table-header">
+                            <div>User</div>
+                            <div>Email</div>
+                            <div>Graphs</div>
+                            <div>Joined</div>
+                            <div>Actions</div>
+                        </div>
+                        <div id="users-list">
+                            <!-- Users list -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-close" id="close-login"><i class="fas fa-times"></i></div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form active" id="login-form">
+                <h3>Welcome Back</h3>
+                <form id="login-email-form">
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-input" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width:100%">Login</button>
+                </form>
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                <button class="btn btn-outline" id="google-login" style="width:100%">
+                    <i class="fab fa-google"></i> Continue with Google
+                </button>
+                <div class="auth-links">
+                    <a href="#" id="forgot-password">Forgot password?</a>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="auth-form" id="signup-form">
+                <h3>Create Account</h3>
+                <form id="signup-email-form">
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-input" placeholder="Password (min 6 characters)" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn" style="width:100%">Create Account</button>
+                </form>
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                <button class="btn btn-outline" id="google-signup" style="width:100%">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+            </div>
+
+            <!-- Password Reset Form -->
+            <div class="auth-form" id="reset-form">
+                <h3>Reset Password</h3>
+                <form id="reset-password-form">
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit" class="btn" style="width:100%">Send Reset Link</button>
+                </form>
+                <div class="auth-links">
+                    <a href="#" id="back-to-login">Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graph Modal -->
+    <div id="graph-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-close" id="close-graph"><i class="fas fa-times"></i></div>
+            
+            <div class="modal-body">
+                <div class="graph-modal-content">
+                    <div class="graph-modal-image">
+                        <img src="" alt="" id="modal-graph-image">
+                        <div class="graph-modal-actions">
+                            <button class="btn btn-outline" id="download-graph">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button class="btn btn-outline" id="embed-graph">
+                                <i class="fas fa-code"></i> Embed
+                            </button>
+                            <button class="btn btn-outline" id="report-graph">
+                                <i class="fas fa-flag"></i> Report
+                            </button>
+                            <button class="btn btn-outline" id="favorite-graph">
+                                <i class="far fa-heart"></i> Favorite
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="graph-modal-info">
+                        <h2 id="modal-graph-title">Graph Title</h2>
+                        <div class="graph-meta">
+                            <span class="graph-subject" id="modal-graph-subject">Physics</span>
+                            <span class="graph-views" id="modal-graph-views">
+                                <i class="fas fa-eye"></i> 1,234 views
+                            </span>
+                            <div class="graph-rating" id="modal-graph-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.0 (24 ratings)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="graph-tags" id="modal-graph-tags">
+                            <!-- Tags will be added here -->
+                        </div>
+                        
+                        <p class="graph-description" id="modal-graph-description">
+                            Graph description will appear here...
+                        </p>
+                        
+                        <!-- Comments Section -->
+                        <div class="comments-section">
+                            <h4>Comments</h4>
+                            <div class="comments-list" id="comments-list">
+                                <!-- Comments will be added here -->
+                            </div>
+                            <div class="comment-form" id="comment-form">
+                                <textarea placeholder="Add a comment..." class="form-input"></textarea>
+                                <button class="btn" id="submit-comment">Post Comment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Graphz</h3>
+                    <p>Making complex concepts visual and understandable.</p>
+                    <div class="social-links">
+                        <a href="https://t.me/graphzlive" class="social-icon"><i class="fab fa-telegram"></i></a>
+                        <a href="https://www.facebook.com/graphzlive" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/graphzlive" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-book"></i> Subjects</a></li>
+                        <li><a href="#" id="footer-profile"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a href="#" id="footer-admin"><i class="fas fa-user-shield"></i> Admin</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#donation"><i class="fas fa-heart"></i> Donate</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                        <li><a href="#"><i class="fas fa-file-contract"></i> Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Graphz. All rights reserved. | Deployed on GitHub Pages</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="firebase.js"></script>
+    <script src="firestore.js"></script>
+    <script src="ui.js"></script>
+    <script src="script.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.log('Service Worker Registration Failed'));
+        }
+    </script>
+</body>
+</html>
